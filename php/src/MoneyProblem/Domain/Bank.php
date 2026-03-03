@@ -45,11 +45,12 @@ class Bank
     }
 
     /**
-     * @param float $amount 
-     * @param Currency $from
-     * @param Currency $to
-     * @return float
-     * @throws MissingExchangeRateException
+     * Focntion de conversion entre deux monnaies
+     * @param float $amount le montant
+     * @param Currency $from la monnaie initiale
+     * @param Currency $to la monnaie finale
+     * @return float le résultat de la conversion
+     * @throws MissingExchangeRateException l'exception en cas d'erreur de conversion
      */
     public function convert(float $amount, Currency $from, Currency $to): float
     {
