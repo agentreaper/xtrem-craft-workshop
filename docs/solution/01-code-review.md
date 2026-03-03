@@ -9,4 +9,4 @@
 - Certains morceaux de code sont un mélange de français et d'anglais
 - Les tests ne semblent pas couvrir tous les cas possibles
 - Dans MoneyCalculator, la Currency ne sert pas mais est quand même requise
-- Les conditions de Bank::Convert sont à revoir
+- Les conditions de Bank::Convert sont à revoir + currency1 => from & currency2 => to
