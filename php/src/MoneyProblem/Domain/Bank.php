@@ -19,28 +19,29 @@ class Bank
 
     /**
      * Fonction de création d'un taux de conversion 
-     * @param Currency $currency1
-     * @param Currency $currency2
-     * @param float $rate
-     * @return Bank
+     * @param Currency $from la monnaie initiale
+     * @param Currency $to la monnaie finale
+     * @param float $rate taux de conversion
+     * @return Bank une instance de Bank avec le taux de conversion ajouté
      */
-    public static function create(Currency $currency1, Currency $currency2, float $rate)
+    public static function create(Currency $from, Currency $to, float $rate)
     {
         $bank = new Bank([]);
-        $bank->addEchangeRate($currency1, $currency2, $rate);
+        $bank->addEchangeRate($from, $to, $rate);
 
         return $bank;
     }
 
     /**
-     * @param Currency $currency1
-     * @param Currency $currency2
-     * @param float $rate
-     * @return void
+     * Fonction pour ajouter un taux de conversion à la banque
+     * @param Currency $from la monnaie initiale
+     * @param Currency $to la monnaie finale
+     * @param float $rate taux de conversion
+     * @return void 
      */
-    public function addEchangeRate(Currency $currency1, Currency $currency2, float $rate): void
+    public function addEchangeRate(Currency $from, Currency $to, float $rate): void
     {
-        $this->exchangeRates[($currency1 . '->' . $currency2)] = $rate;
+        $this->exchangeRates[($from . '->' . $to)] = $rate;
     }
 
     /**
