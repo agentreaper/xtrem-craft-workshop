@@ -9,7 +9,8 @@ class Bank
     private $exchangeRates = [];
 
     /**
-     * @param array $exchangeRates
+     * Constructeur de la classe Bank
+     * @param array $exchangeRates Le tableau des taux de change 
      */
     public function __construct(array $exchangeRates = [])
     {
@@ -17,6 +18,7 @@ class Bank
     }
 
     /**
+     * Fonction de création d'un taux de conversion 
      * @param Currency $currency1
      * @param Currency $currency2
      * @param float $rate
