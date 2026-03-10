@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class BankTest extends TestCase
 {
-
+    # given when then
     public function test_given_eur_return_usd_as_float()
     {
         # $this->assertEquals(12, Bank::create(Currency::EUR(), Currency::USD(), 1.2)->convert(10, Currency::EUR(), Currency::USD()));
@@ -35,7 +35,8 @@ class BankTest extends TestCase
         Bank::create(Currency::EUR(), Currency::USD(), 1.2)->convert(10, Currency::EUR(), Currency::KRW());
     }
 
-    public function test_convert_with_different_exchange_rates_returns_different_floats()
+    #test_convert_with_different_exchange_rates_returns_different_floats
+    public function test_given_different_exchange_rates_when_converting_then_should_returns_different_float()
     {
         $bank = Bank::create(Currency::EUR(), Currency::USD(), 1.2);
 
