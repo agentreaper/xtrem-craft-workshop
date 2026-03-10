@@ -10,19 +10,24 @@ use PHPUnit\Framework\TestCase;
 class BankTest extends TestCase
 {
 
-    # Given EUR, return USD as float
-    public function test_convert_eur_to_usd_returns_float()
+    public function test_given_eur_return_usd_as_float()
     {
-        $this->assertEquals(12, Bank::create(Currency::EUR(), Currency::USD(), 1.2)->convert(10, Currency::EUR(), Currency::USD()));
+        # $this->assertEquals(12, Bank::create(Currency::EUR(), Currency::USD(), 1.2)->convert(10, Currency::EUR(), Currency::USD()));
+        $bank = Bank::create(Currency::EUR(), Currency::USD(), 1.2);
+        $result = $bank->convert(10, Currency::EUR(), Currency::USD());
+        $this->assertEquals(12, $result);
+
     }
 
-    
-    public function test_convert_eur_to_eur_returns_same_value()
+
+    public function test_given_eur_return_eur_as_float()
     {
-        $this->assertEquals(10, Bank::create(Currency::EUR(), Currency::USD(), 1.2)->convert(10, Currency::EUR(), Currency::EUR()));
+        $bank = Bank::create(Currency::EUR(), Currency::USD(), 1.2);
+        $result = $bank->convert(10, Currency::EUR(), Currency::EUR());
+        $this->assertEquals(10, $result);
     }
 
-    public function test_convert_throws_exception_on_missing_exchange_rate()
+    public function test_given_bank_missing_exchange_rate_return_exception()
     {
         $this->expectException(MissingExchangeRateException::class);
         $this->expectExceptionMessage('EUR->KRW');
