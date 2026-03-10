@@ -10,11 +10,13 @@ use PHPUnit\Framework\TestCase;
 class BankTest extends TestCase
 {
 
+    # Given EUR, return USD as float
     public function test_convert_eur_to_usd_returns_float()
     {
         $this->assertEquals(12, Bank::create(Currency::EUR(), Currency::USD(), 1.2)->convert(10, Currency::EUR(), Currency::USD()));
     }
 
+    
     public function test_convert_eur_to_eur_returns_same_value()
     {
         $this->assertEquals(10, Bank::create(Currency::EUR(), Currency::USD(), 1.2)->convert(10, Currency::EUR(), Currency::EUR()));
