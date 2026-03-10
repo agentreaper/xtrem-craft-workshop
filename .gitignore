@@ -9,7 +9,9 @@
 *.user
 *.userosscache
 *.sln.docstates
-
+*.phive
+tools
+infection.json5
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
