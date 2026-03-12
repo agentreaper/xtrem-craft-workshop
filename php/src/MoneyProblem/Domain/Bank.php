@@ -62,14 +62,10 @@ class Bank
             : $amount * $this->exchangeRates[($from . '->' . $to)];
     }
 
-    public function evaluate(Portfolio $p, Currency $c): float
-    {
-        $total;
-        if (in_array($c, $p->currency_map)){
-            foreach ($p->currency_map as $cle => $valeur) {
-                
-            }
-        }
+    public function currencyIsSupported(String $fromto){
+        array_key_exists($fromto, $this->exchangeRates);
     }
+
+    
 
 }
