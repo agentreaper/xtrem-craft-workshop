@@ -40,7 +40,7 @@ jobs:
       run: php vendor/bin/phpunit --testdox
     
     - name: Install infection dependencies
-      run: apt install php-pcov
+      run: sudo apt install php-pcov
         
     - name: Run infection tests
       run: phpdbg -qrr /home/ebertinbench/.composer/vendor/bin/infection --show-mutations
