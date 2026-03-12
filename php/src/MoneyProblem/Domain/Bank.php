@@ -62,8 +62,8 @@ class Bank
             : $amount * $this->exchangeRates[($from . '->' . $to)];
     }
 
-    public function currencyIsSupported(String $fromto){
-        array_key_exists($fromto, $this->exchangeRates);
+    public function currencyIsSupported(String $from, String $to){
+        return array_key_exists($from . '->' . $to, $this->exchangeRates);
     }
 
     

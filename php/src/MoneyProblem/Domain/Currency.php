@@ -14,4 +14,9 @@ class Currency extends Enum
     private const USD = "USD";
     private const EUR = 'EUR';
     private const KRW = "KRW";
+
+    public static function fromString(string $value): self
+    {
+        return new self($value);
+    }
 }

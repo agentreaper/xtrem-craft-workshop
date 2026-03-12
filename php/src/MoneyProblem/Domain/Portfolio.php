@@ -42,13 +42,13 @@ class Portfolio
     }
 
 
-    public function evaluate(Bank $b, Currency $to): float
+    public function evaluate(Bank $banq, Currency $to): float
     {
         $total = 0;
-        foreach($this->getCurrencyMap() as $code => $amount){
-            $fromto = "{$code} -> {$to}";
-            if($b->currencyIsSupported($code)) {
-                $total += $banq->convert($amount, $code, $c);
+        foreach($this->getCurrencyMap() as $from => $amount){
+            $from_c = Currency::fromString($from);
+            if($banq->currencyIsSupported($from, $to)) {
+                $total += $banq->convert($amount, $from_c , $to);
             } else {
                 throw new \Exception("Currency not supported.", 1);
             }
