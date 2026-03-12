@@ -3,6 +3,8 @@
     "license": "proprietary",
     "minimum-stability": "stable",
     "prefer-stable": true,
+    "name": "mon_petit_projet_tranquille/test",
+    "description": "jécrirais bien un truc pertinent mais je suis pas assez payé",
     "require": {
         "php": ">=7.4",
         "ext-ctype": "*",

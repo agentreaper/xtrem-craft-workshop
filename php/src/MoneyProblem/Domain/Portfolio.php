@@ -44,7 +44,7 @@ class Portfolio
 
     public function evaluate(Bank $banq, Currency $to): float
     {
-        $total = 0;
+        $total = null;
         foreach($this->getCurrencyMap() as $from => $amount){
             $from_c = Currency::fromString($from);
             if($banq->currencyIsSupported($from, $to)) {
