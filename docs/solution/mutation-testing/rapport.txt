@@ -1,0 +1,69 @@
+ebertinbench@fedora:~/iut/xtrem-craft-workshop/php$ phpdbg -qrr /home/ebertinbench/.composer/vendor/bin/infection --show-mutations
+
+    ____      ____          __  _
+   /  _/___  / __/__  _____/ /_(_)___  ____
+   / // __ \/ /_/ _ \/ ___/ __/ / __ \/ __ \
+ _/ // / / / __/  __/ /__/ /_/ / /_/ / / / /
+/___/_/ /_/_/  \___/\___/\__/_/\____/_/ /_/
+
+#StandWithUkraine
+
+Infection - PHP Mutation Testing Framework version 0.32.6
+
+[notice] You are running Infection with phpdbg enabled.
+
+Running initial test suite...
+
+PHPUnit version: 9.6.34
+
+   14 [============================]    1 s
+
+Generate mutants...
+
+Processing source code files: 4/4
+.: killed by tests, A: killed by SA, M: escaped, U: uncovered
+E: fatal error, X: syntax error, T: timed out, S: skipped, I: ignored
+
+.M.M.................................                (37 / 37)
+Escaped mutants:
+================
+
+
+1) /home/ebertinbench/iut/xtrem-craft-workshop/php/src/MoneyProblem/Domain/MoneyCalculator.php:12    [M] Plus [ID] 9cb8f7b20f82a4ff8cfb1be0004198ed
+
+@@ @@
+      */
+     public static function add(float $amount, float $amount2): float
+     {
+-        return $amount + $amount2;
++        return $amount - $amount2;
+     }
+ 
+     /**
+
+
+2) /home/ebertinbench/iut/xtrem-craft-workshop/php/src/MoneyProblem/Domain/MoneyCalculator.php:20    [M] Multiplication [ID] c75944226ab96076b46cf585ed1f207a
+
+@@ @@
+      */
+     public static function times(float $amount, int $value): float
+     {
+-        return $amount * $value;
++        return $amount / $value;
+     }
+ 
+     /**
+
+
+
+37 mutations were generated:
+      35 mutants were killed by Test Framework
+       2 covered mutants were not detected
+
+Metrics:
+         Mutation Code Coverage: 100%
+         Covered Code MSI: 94%
+
+Please note that some mutants will inevitably be harmless (i.e. false positives).
+
+Time: 2s. Memory: 14.00MB. Threads: 1

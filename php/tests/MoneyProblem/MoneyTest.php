@@ -15,8 +15,7 @@ class MoneyTest extends TestCase
 
         $result = MoneyCalculator::add($value1, $value2);
 
-        $this->assertIsFloat($result);
-        $this->assertNotNull($result);
+        $this->assertEquals(15, $result);
     }
 
     public function test_MoneyCalculator_returns_positive_number_when_multiplying_values_in_EUR()
@@ -26,7 +25,7 @@ class MoneyTest extends TestCase
 
         $result = MoneyCalculator::times($value, $multiplier);
 
-        $this->assertGreaterThan(0, $result);
+        $this->assertEquals(20, $result);
     }
 
     public function test_MoneyCalculator_returns_float_when_dividing_values_in_KRW()

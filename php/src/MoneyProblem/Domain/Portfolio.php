@@ -20,7 +20,7 @@ class Portfolio
         return $portfolio;
     }
 
-    public function add_to_portfolio(Currency $c, float $m)
+    private function add_to_portfolio(Currency $c, float $m)
     {
         $this->currencies[] = $m;
         $this->currency_map["{$c}"] = $m;
@@ -36,7 +36,7 @@ class Portfolio
      * Retourne la map currency => montant (les clés sont des strings comme 'USD')
      * @return array
      */
-    public function getCurrencyMap(): array
+    private function getCurrencyMap(): array
     {
         return $this->currency_map;
     }
