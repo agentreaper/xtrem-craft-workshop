@@ -34,8 +34,14 @@ jobs:
           ${{ runner.os }}-php-
 
     - name: Install dependencies
-      run: composer install --prefer-dist --no-progress && php vendor/bin/phpunit --testdox
-
+      run: composer install --prefer-dist --no-progress 
+    
+    - name: Run unit tests
+      run: php vendor/bin/phpunit --testdox
+      
+    - name: Run infection tests
+      run: phpdbg -qrr /home/ebertinbench/.composer/vendor/bin/infection --show-mutations
+      
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md
 
