@@ -43,7 +43,7 @@ jobs:
       run: sudo apt install php-pcov
         
     - name: Run infection tests
-      run: phpdbg -qrr /home/ebertinbench/.composer/vendor/bin/infection --show-mutations
+      run: phpdbg -qrr .composer/vendor/bin/infection --show-mutations
       
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md
