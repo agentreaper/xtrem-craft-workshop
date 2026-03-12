@@ -6,6 +6,7 @@ namespace MoneyProblem\Domain;
 class Portfolio
 {
     private $currency_map = [];
+    private $currencies = [];
 
     private function __construct()
     {
@@ -21,7 +22,14 @@ class Portfolio
 
     public function add_to_portfolio(Currency $c, float $m)
     {
+        array_push($this->currencies, $m);
         $this->currency_map->$c = $m;
+    }
+
+    public function remove_from_portfolio(Currency $c, float $m)
+    {
+        // supprimer $this->currency_map->$c = $m;
+        // enlever de $currencies
     }
 
 
