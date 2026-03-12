@@ -45,9 +45,9 @@ class Portfolio
     public function evaluate(Bank $b, Currency $to): float
     {
         $total = 0;
-        foreach($currency_map as $code => $amount){
+        foreach($this->getCurrencyMap() as $code => $amount){
             $fromto = "{$code} -> {$to}";
-            if($banq->currencyIsSupported($from)) {
+            if($b->currencyIsSupported($code)) {
                 $total += $banq->convert($amount, $code, $c);
             } else {
                 throw new \Exception("Currency not supported.", 1);
