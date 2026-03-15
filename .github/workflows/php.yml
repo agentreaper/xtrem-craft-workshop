@@ -37,16 +37,17 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-php-
 
+    - name: Configure Composer for Infection
+      run: composer config --no-plugins allow-plugins.infection/extension-installer true
+    
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress 
     
+    - name: Install infection
+      run: composer require --dev infection/infection:^0.27 --with-all-dependencies
+    
     - name: Run unit tests
       run: php vendor/bin/phpunit --testdox
-    
-    - name: Install infection
-      run: |
-        composer config --no-plugins allow-plugins.infection/extension-installer true
-        composer require --dev infection/infection:^0.27 --with-all-dependencies
     
     - name: Install infection dependencies
       run: sudo apt install php-pcov
