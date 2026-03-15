@@ -21,7 +21,7 @@ jobs:
     steps:
     - uses: shivammathur/setup-php@v2
       with:
-        php-version: '8.1'
+        php-version: '8.2'
     
     - uses: actions/checkout@v4
 
@@ -47,7 +47,7 @@ jobs:
       run: php vendor/bin/phpunit --testdox
     
     - name: Install infection dependencies
-      run: sudo apt-get update && sudo apt-get install -y php8.1-pcov gnupg
+      run: sudo apt-get update && sudo apt-get install -y php8.2-pcov gnupg
         
     - name: Download and verify Infection PHAR
       run: |
