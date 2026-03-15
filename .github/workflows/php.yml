@@ -59,11 +59,13 @@ jobs:
           "source": {
             "directories": ["src"]
           },
-          "tests": {
-            "directories": ["tests"]
-          },
           "threads": 4,
-          "showMutations": true
+          "mutators": {
+            "enabled": true
+          },
+          "logs": {
+            "text": "infection.log"
+          }
         }
         EOF
         
