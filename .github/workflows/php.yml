@@ -50,7 +50,7 @@ jobs:
       run: php vendor/bin/phpunit --testdox
     
     - name: Install infection dependencies
-      run: sudo apt install php-pcov
+      run: sudo apt-get update && sudo apt-get install -y php8.1-pcov
         
     - name: Run infection tests
       run: phpdbg -qrr vendor/bin/infection --show-mutations
