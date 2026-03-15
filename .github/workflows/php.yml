@@ -71,7 +71,7 @@ jobs:
         EOF
         
     - name: Run infection tests
-      run: ./infection.phar --test-framework vendor/bin/phpunit --min-msi=48 --threads=4 --show-mutations
+      run: ./infection.phar --test-framework phpunit --test-framework-options="--configuration=phpunit.xml.dist" --min-msi=48 --threads=4 --show-mutations
       
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md
