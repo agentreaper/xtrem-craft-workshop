@@ -57,8 +57,22 @@ jobs:
         gpg --with-fingerprint --verify infection.phar.asc infection.phar
         chmod +x infection.phar
         
+    - name: Create minimal Infection configuration
+      run: |
+        cat > infection.json << 'EOF'
+        {
+          "source": {
+            "directories": ["src"]
+          },
+          "php-unit": {
+            "configDir": ".",
+            "testSuite": "Project Test Suite"
+          }
+        }
+        EOF
+        
     - name: Run infection tests
-      run: ./infection.phar --min-msi=48 --threads=4 --show-mutations
+      run: ./infection.phar --min-msi=48 --threads=4 --show-mutations --no-progress
       
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md
