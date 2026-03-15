@@ -39,6 +39,9 @@ jobs:
     - name: Run unit tests
       run: php vendor/bin/phpunit --testdox
     
+    - name: Install infection
+      run: composer require --dev infection/infection
+    
     - name: Install infection dependencies
       run: sudo apt install php-pcov
         
