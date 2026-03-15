@@ -17,8 +17,12 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    
     steps:
+    - uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.1'
+    
     - uses: actions/checkout@v4
 
     - name: Validate composer.json and composer.lock
@@ -40,7 +44,7 @@ jobs:
       run: php vendor/bin/phpunit --testdox
     
     - name: Install infection
-      run: composer require --dev infection/infection
+      run: composer require --dev infection/infection:^0.27 --with-all-dependencies
     
     - name: Install infection dependencies
       run: sudo apt install php-pcov
