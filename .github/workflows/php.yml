@@ -43,34 +43,22 @@ jobs:
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress 
     
-    - name: Install infection
-      run: composer require --dev infection/infection:^0.27 --with-all-dependencies
-    
     - name: Run unit tests
       run: php vendor/bin/phpunit --testdox
     
     - name: Install infection dependencies
-      run: sudo apt-get update && sudo apt-get install -y php8.1-pcov
+      run: sudo apt-get update && sudo apt-get install -y php8.1-pcov gnupg
         
-    - name: Create Infection configuration
+    - name: Download and verify Infection PHAR
       run: |
-        cat > infection.json << 'EOF'
-        {
-          "source": {
-            "directories": ["src"]
-          },
-          "threads": 4,
-          "mutators": {
-            "enabled": true
-          },
-          "logs": {
-            "text": "infection.log"
-          }
-        }
-        EOF
+        wget https://github.com/infection/infection/releases/download/0.32.0/infection.phar
+        wget https://github.com/infection/infection/releases/download/0.32.0/infection.phar.asc
+        gpg --recv-keys C6D76C329EBADE2FB9C458CFC5095986493B4AA0
+        gpg --with-fingerprint --verify infection.phar.asc infection.phar
+        chmod +x infection.phar
         
     - name: Run infection tests
-      run: vendor/bin/infection --show-mutations
+      run: ./infection.phar --min-msi=48 --threads=4 --show-mutations
       
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md
