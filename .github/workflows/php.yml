@@ -52,8 +52,23 @@ jobs:
     - name: Install infection dependencies
       run: sudo apt-get update && sudo apt-get install -y php8.1-pcov
         
+    - name: Create Infection configuration
+      run: |
+        cat > infection.json << 'EOF'
+        {
+          "source": {
+            "directories": ["src"]
+          },
+          "tests": {
+            "directories": ["tests"]
+          },
+          "threads": 4,
+          "showMutations": true
+        }
+        EOF
+        
     - name: Run infection tests
-      run: phpdbg -qrr vendor/bin/infection --show-mutations
+      run: vendor/bin/infection --show-mutations
       
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md
