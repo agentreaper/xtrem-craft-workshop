@@ -17,7 +17,6 @@ class PortfolioTest extends TestCase
         $bank = Bank::create(Currency::EUR(), Currency::USD(), 1);
         
         $result = $portfolio->evaluate($bank,Currency::USD());
-        
         $this->assertEquals(0, $result);
     }
 

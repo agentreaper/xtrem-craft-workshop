@@ -3,39 +3,36 @@
 namespace Tests\MoneyProblem\Domain;
 
 use MoneyProblem\Domain\Currency;
-use MoneyProblem\Domain\MoneyCalculator;
+use MoneyProblem\Domain\Money;
 use PHPUnit\Framework\TestCase;
 
 class MoneyTest extends TestCase
 {
-    public function test_MoneyCalculator_returns_float_when_adding_two_values_in_USD()
+    public function test_5_USD_plus_10_USD_equals_15_USD()
     {
-        $value1 = 5;
-        $value2 = 10;
+        $money1 = new Money(5, Currency::USD());
+        $money2 = new Money(10, Currency::USD());
 
-        $result = MoneyCalculator::add($value1, $value2);
+        $result = $money1->add($money2);
 
-        $this->assertEquals(15, $result);
+        $this->assertEquals(new Money(15, Currency::USD()), $result);
     }
 
-    public function test_MoneyCalculator_returns_positive_number_when_multiplying_values_in_EUR()
+    public function test_10_EUR_times_2_equals_20_EUR()
     {
-        $value = 10;
-        $multiplier = 2;
+        $money = new Money(10, Currency::EUR());
 
-        $result = MoneyCalculator::times($value, $multiplier);
+        $result = $money->times(2);
 
-        $this->assertEquals(20, $result);
+        $this->assertEquals(new Money(20, Currency::EUR()), $result);
     }
 
-    public function test_MoneyCalculator_returns_float_when_dividing_values_in_KRW()
+    public function test_4002_KRW_divided_by_4_equals_1000_5_KRW()
     {
-        $value = 4002;
-        $divisor = 4;
-        $expected = 1000.5;
+        $money = new Money(4002, Currency::KRW());
 
-        $result = MoneyCalculator::divide($value, $divisor);
+        $result = $money->divide(4);
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals(new Money(1000.5, Currency::KRW()), $result);
     }
 }
