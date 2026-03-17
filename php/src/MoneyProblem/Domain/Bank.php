@@ -46,20 +46,22 @@ class Bank
 
     /**
      * Focntion de conversion entre deux monnaies
-     * @param float $amount le montant
-     * @param Currency $from la monnaie initiale
+     * @param Money $money le montant et la monnaie initiale
      * @param Currency $to la monnaie finale
-     * @return float le résultat de la conversion
+     * @return Money le résultat de la conversion
      * @throws MissingExchangeRateException l'exception en cas d'erreur de conversion
      */
-    public function convert(float $amount, Currency $from, Currency $to): float
+    public function convert(Money $money, Currency $to): Money
     {
+        $from = $money->getCurrency();
+        $amount = $money->getAmount();
         if (!($from == $to || array_key_exists($from . '->' . $to, $this->exchangeRates))) {
             throw new MissingExchangeRateException($from, $to);
         }
-        return $from == $to
+        $convertedAmount = $from == $to
             ? $amount
             : $amount * $this->exchangeRates[($from . '->' . $to)];
+        return new Money($convertedAmount, $to);
     }
 
     public function currencyIsSupported(String $from, String $to){

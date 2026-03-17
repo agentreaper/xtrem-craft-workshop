@@ -6,6 +6,7 @@ use MoneyProblem\Domain\MoneyCalculator;
 use PHPUnit\Framework\TestCase;
 use MoneyProblem\Domain\Bank;
 use MoneyProblem\Domain\Currency;
+use MoneyProblem\Domain\Money;
 use MoneyProblem\Domain\Portfolio;
 
 
@@ -13,20 +14,26 @@ class PortfolioTest extends TestCase
 {
     public function test_given_portfolio_empty_when_evaluating_then_returns_zero()
     {
-        $portfolio = Portfolio::create(Currency::EUR(), 0);
+        $portfolio = Portfolio::create(new Money(0, Currency::EUR()));
         $bank = Bank::create(Currency::EUR(), Currency::USD(), 1);
         
         $result = $portfolio->evaluate($bank,Currency::USD());
-        $this->assertEquals(0, $result);
+        $this->assertEquals(0, $result->getAmount());
+    }
+
+    public function test_given_portfolio_with_money_when_evaluating_then_returns_correct_total()
+    {
+        $portfolio = Portfolio::create(new Money(100, Currency::USD()));
+        $bank = Bank::create(Currency::USD(), Currency::USD(), 1);
+        
+        $result = $portfolio->evaluate($bank,Currency::USD());
+        $this->assertEquals(100, $result->getAmount());
     }
 
     public function test_given_portfolio_with_multiple_currencies_when_evaluating_then_returns_correct_total()
     {
-        // This test will catch the mutants by verifying accumulation works correctly
         $portfolio = new \ReflectionClass('MoneyProblem\\Domain\\Portfolio');
         $instance = $portfolio->newInstanceWithoutConstructor();
-        
-        // Use reflection to set private currency_map property
         $currencyMapProperty = $portfolio->getProperty('currency_map');
         $currencyMapProperty->setAccessible(true);
         $currencyMapProperty->setValue($instance, [
@@ -35,13 +42,13 @@ class PortfolioTest extends TestCase
         ]);
         
         $bank = new Bank([]);
-        $bank->addEchangeRate(Currency::USD(), Currency::USD(), 1); // USD to USD (no conversion)
-        $bank->addEchangeRate(Currency::EUR(), Currency::USD(), 0.5); // EUR to USD
+        $bank->addEchangeRate(Currency::USD(), Currency::USD(), 1);
+        $bank->addEchangeRate(Currency::EUR(), Currency::USD(), 0.5); 
         
         $result = $instance->evaluate($bank, Currency::USD());
         
-        // 100 USD (no conversion needed) + 50 EUR * 0.5 = 100 + 25 = 125 USD
-        $this->assertEquals(125, $result);
+        
+        $this->assertEquals(125, $result->getAmount());
     }
 
 }

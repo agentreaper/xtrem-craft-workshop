@@ -12,18 +12,18 @@ class Portfolio
     {
     }
 
-    public static function create(Currency $currency, float $montant)
+    public static function create(Money $money)
     {
         $portfolio = new Portfolio();
-        $portfolio->add_to_portfolio($currency,$montant);
+        $portfolio->add_to_portfolio($money);
 
         return $portfolio;
     }
 
-    private function add_to_portfolio(Currency $c, float $m)
+    private function add_to_portfolio(Money $money)
     {
-        $this->currencies[] = $m;
-        $this->currency_map["{$c}"] = $m;
+        $this->currencies[] = $money->getAmount();
+        $this->currency_map["{$money->getCurrency()}"] = $money->getAmount();
     }
 
     public function remove_from_portfolio(Currency $c, float $m)
@@ -42,18 +42,20 @@ class Portfolio
     }
 
 
-    public function evaluate(Bank $banq, Currency $to): float
+    public function evaluate(Bank $banq, Currency $to): Money
     {
-        $total = null;
+        $total = 0;
         foreach($this->getCurrencyMap() as $from => $amount){
             $from_c = Currency::fromString($from);
             if($banq->currencyIsSupported($from, $to)) {
-                $total += $banq->convert($amount, $from_c , $to);
+                $money = new Money($amount, $from_c);
+                $convertedMoney = $banq->convert($money, $to);
+                $total += $convertedMoney->getAmount();
             } else {
                 throw new \Exception("Currency not supported.", 1);
             }
         }
-        return $total;
+        return new Money($total, $to);
     }
 
 
