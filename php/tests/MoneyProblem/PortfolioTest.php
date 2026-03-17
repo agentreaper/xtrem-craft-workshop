@@ -2,7 +2,6 @@
 
 namespace Tests\MoneyProblem\Domain;
 
-use MoneyProblem\Domain\MoneyCalculator;
 use PHPUnit\Framework\TestCase;
 use MoneyProblem\Domain\Bank;
 use MoneyProblem\Domain\Currency;
@@ -34,11 +33,11 @@ class PortfolioTest extends TestCase
     {
         $portfolio = new \ReflectionClass('MoneyProblem\\Domain\\Portfolio');
         $instance = $portfolio->newInstanceWithoutConstructor();
-        $currencyMapProperty = $portfolio->getProperty('currency_map');
-        $currencyMapProperty->setAccessible(true);
-        $currencyMapProperty->setValue($instance, [
-            'USD' => 100,
-            'EUR' => 50
+        $moneysProperty = $portfolio->getProperty('moneys');
+        $moneysProperty->setAccessible(true);
+        $moneysProperty->setValue($instance, [
+            new Money(100, Currency::USD()),
+            new Money(50, Currency::EUR())
         ]);
         
         $bank = new Bank([]);

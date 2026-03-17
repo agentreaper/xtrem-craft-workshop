@@ -5,8 +5,7 @@ namespace MoneyProblem\Domain;
 
 class Portfolio
 {
-    public $currency_map = [];
-    public $currencies = [];
+    private array $moneys = [];
 
     private function __construct()
     {
@@ -22,33 +21,26 @@ class Portfolio
 
     private function add_to_portfolio(Money $money)
     {
-        $this->currencies[] = $money->getAmount();
-        $this->currency_map["{$money->getCurrency()}"] = $money->getAmount();
+        $this->moneys[] = $money;
     }
 
-    public function remove_from_portfolio(Currency $c, float $m)
+    public function remove_from_portfolio(Money $moneyToRemove): void
     {
-        // supprimer $this->currency_map->$c = $m;
-        // enlever de $currencies
+        foreach ($this->moneys as $index => $money) {
+            if ($money->getCurrency() == $moneyToRemove->getCurrency() && $money->getAmount() === $moneyToRemove->getAmount()) {
+                unset($this->moneys[$index]);
+                $this->moneys = array_values($this->moneys);
+                return;
+            }
+        }
     }
-
-    /**
-     * Retourne la map currency => montant (les clés sont des strings comme 'USD')
-     * @return array
-     */
-    private function getCurrencyMap(): array
-    {
-        return $this->currency_map;
-    }
-
 
     public function evaluate(Bank $banq, Currency $to): Money
     {
         $total = 0;
-        foreach($this->getCurrencyMap() as $from => $amount){
-            $from_c = Currency::fromString($from);
-            if($banq->currencyIsSupported($from, $to)) {
-                $money = new Money($amount, $from_c);
+        foreach ($this->moneys as $money) {
+            $from = (string) $money->getCurrency();
+            if ($banq->currencyIsSupported($from, (string) $to)) {
                 $convertedMoney = $banq->convert($money, $to);
                 $total += $convertedMoney->getAmount();
             } else {
