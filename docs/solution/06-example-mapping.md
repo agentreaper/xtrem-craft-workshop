@@ -18,7 +18,5 @@ Exemple: (post-it vert)
 Vous pouvez également joindre une photo du résultat obtenu en utilisant les post-its.
 
 ## Évaluation d'un portefeuille
-
-
-
+![postit](../img/postit.png)
 
