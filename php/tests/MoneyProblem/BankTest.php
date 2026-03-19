@@ -8,12 +8,14 @@ use MoneyProblem\Domain\Money;
 use MoneyProblem\Domain\MissingExchangeRateException;
 use PHPUnit\Framework\TestCase;
 
+require_once 'BankBuilder.php';
+
 class BankTest extends TestCase
 {
 
     public function test_Bank_returns_converted_float_when_converting_EUR_to_USD()
     {
-        $bank = Bank::create(Currency::EUR(), Currency::USD(), 1.2);
+        $bank = (new BankBuilder())->build();
         $money = new Money(10, Currency::EUR());
         $expected = new Money(12, Currency::USD());
 
@@ -24,7 +26,7 @@ class BankTest extends TestCase
 
     public function test_Bank_returns_same_float_when_converting_EUR_to_EUR()
     {
-        $bank = Bank::create(Currency::EUR(), Currency::USD(), 1.2);
+        $bank = (new BankBuilder())->build();
         $money = new Money(10, Currency::EUR());
         $expected = new Money(10, Currency::EUR());
 
@@ -37,7 +39,7 @@ class BankTest extends TestCase
     {
         $this->expectException(MissingExchangeRateException::class);
         $this->expectExceptionMessage('EUR->KRW');
-        $bank = Bank::create(Currency::EUR(), Currency::USD(), 1.2);
+        $bank = (new BankBuilder())->build();
         $money = new Money(10, Currency::EUR());
 
         $bank->convert($money, Currency::KRW());
@@ -45,7 +47,7 @@ class BankTest extends TestCase
 
     public function test_Bank_returns_different_float_when_converting_with_updated_exchange_rate()
     {
-        $bank = Bank::create(Currency::EUR(), Currency::USD(), 1.2);
+        $bank = (new BankBuilder())->build();
         $money = new Money(10, Currency::EUR());
 
         $this->assertEquals(12, $bank->convert($money, Currency::USD())->getAmount());

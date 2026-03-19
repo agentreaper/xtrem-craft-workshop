@@ -8,13 +8,16 @@ use MoneyProblem\Domain\Currency;
 use MoneyProblem\Domain\Money;
 use MoneyProblem\Domain\Portfolio;
 
+require_once 'BankBuilder.php';
+
 
 class PortfolioTest extends TestCase
 {
     public function test_given_portfolio_empty_when_evaluating_then_returns_zero()
     {
         $portfolio = Portfolio::create(new Money(0, Currency::EUR()));
-        $bank = Bank::create(Currency::EUR(), Currency::USD(), 1);
+        # a refacto
+        $bank = (new BankBuilder())->withFrom(Currency::EUR())->withTo(Currency::USD())->withRate(1)->build();
         
         $result = $portfolio->evaluate($bank,Currency::USD());
         $this->assertEquals(0, $result->getAmount());
@@ -23,7 +26,10 @@ class PortfolioTest extends TestCase
     public function test_given_portfolio_with_money_when_evaluating_then_returns_correct_total()
     {
         $portfolio = Portfolio::create(new Money(100, Currency::USD()));
-        $bank = Bank::create(Currency::USD(), Currency::USD(), 1);
+        $bank = new BankBuilder();
+        $bank ->withFrom(Currency::USD());
+        $bank ->withTo(Currency::USD());
+        $bank ->withRate(1)->build();
         
         $result = $portfolio->evaluate($bank,Currency::USD());
         $this->assertEquals(100, $result->getAmount());
