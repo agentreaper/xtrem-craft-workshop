@@ -17,7 +17,7 @@ class PortfolioTest extends TestCase
     {
         $portfolio = Portfolio::create(new Money(0, Currency::EUR()));
         # a refacto
-        $bank = (new BankBuilder())->withFrom(Currency::EUR())->withTo(Currency::USD())->withRate(1)->build();
+        $bankBuilder = (new BankBuilder())->withFrom(Currency::EUR())->withTo(Currency::USD())->withRate(1)->build();
         
         $result = $portfolio->evaluate($bank,Currency::USD());
         $this->assertEquals(0, $result->getAmount());
