@@ -70,14 +70,14 @@ class Bank
             ? $amount
             : $amount * $this->exchangeRates[($from . '->' . $to)];
         
-        if (strpos((string)$convertedAmount, '.') !== false) {
-            $decimalPart = substr((string)$convertedAmount, strpos((string)$convertedAmount, '.') + 1);
-            if (strlen($decimalPart) > 1) {
-                $convertedAmount = floor($convertedAmount * 10) / 10;
-            }
-        }
+        $convertedAmount = $this->roundToTenth($convertedAmount);
         
         return new Money($convertedAmount, $to);
+    }
+    
+    private function roundToTenth(float $amount): float
+    {
+        return floor($amount * 10) / 10;
     }
 
     public function currencyIsSupported(String $from, String $to){
