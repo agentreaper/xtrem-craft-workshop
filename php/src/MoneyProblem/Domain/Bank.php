@@ -38,9 +38,13 @@ class Bank
      * @param Currency $to la monnaie finale
      * @param float $rate taux de conversion
      * @return void 
+     * @throws \InvalidArgumentException si le taux de change n'est pas strictement positif
      */
     public function addEchangeRate(Currency $from, Currency $to, float $rate): void
     {
+        if ($rate <= 0) {
+            throw new \InvalidArgumentException("Le taux de change doit être strictement positif");
+        }
         $this->exchangeRates[($from . '->' . $to)] = $rate;
     }
 
@@ -50,17 +54,29 @@ class Bank
      * @param Currency $to la monnaie finale
      * @return Money le résultat de la conversion
      * @throws MissingExchangeRateException l'exception en cas d'erreur de conversion
+     * @throws \InvalidArgumentException si le montant n'est pas strictement positif
      */
     public function convert(Money $money, Currency $to): Money
     {
         $from = $money->getCurrency();
         $amount = $money->getAmount();
+        if ($amount < 0) {
+            throw new \InvalidArgumentException("Le montant doit être strictement positif");
+        }
         if (!($from == $to || array_key_exists($from . '->' . $to, $this->exchangeRates))) {
             throw new MissingExchangeRateException($from, $to);
         }
         $convertedAmount = $from == $to
             ? $amount
             : $amount * $this->exchangeRates[($from . '->' . $to)];
+        
+        if (strpos((string)$convertedAmount, '.') !== false) {
+            $decimalPart = substr((string)$convertedAmount, strpos((string)$convertedAmount, '.') + 1);
+            if (strlen($decimalPart) > 1) {
+                $convertedAmount = floor($convertedAmount * 10) / 10;
+            }
+        }
+        
         return new Money($convertedAmount, $to);
     }
 

@@ -45,6 +45,36 @@ class BankTest extends TestCase
         $bank->convert($money, Currency::KRW());
     }
 
+    public function test_Bank_throws_InvalidArgumentException_when_converting_with_negative_amount()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("Le montant doit être strictement positif");
+        $bank = (new BankBuilder())->build();
+        $money = new Money(-10, Currency::EUR());
+
+        $bank->convert($money, Currency::USD());
+    }
+
+    public function test_Bank_throws_InvalidArgumentException_when_adding_exchange_rate_with_non_positive_rate()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("Le taux de change doit être strictement positif");
+        $bank = new Bank();
+
+        $bank->addEchangeRate(Currency::EUR(), Currency::USD(), 0);
+    }
+
+    public function test_Bank_returns_rounded_amount_when_converting_with_more_than_3_decimals()
+    {
+        $bank = (new BankBuilder())->withRate(1.2345)->build();
+        $money = new Money(10, Currency::EUR());
+        $expected = new Money(12.3, Currency::USD());
+
+        $result = $bank->convert($money, Currency::USD());
+
+        $this->assertEquals($expected->getAmount(), $result->getAmount());
+    }
+
     public function test_Bank_returns_different_float_when_converting_with_updated_exchange_rate()
     {
         $bank = (new BankBuilder())->build();
