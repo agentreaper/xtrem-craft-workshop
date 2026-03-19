@@ -39,8 +39,8 @@ class Portfolio
     {
         $total = 0;
         foreach ($this->moneys as $money) {
-            $from = (string) $money->getCurrency();
-            if ($banq->currencyIsSupported($from, (string) $to)) {
+            $from = $money->getCurrency();
+            if ($banq->currencyIsSupported($from, $to)) {
                 $convertedMoney = $banq->convert($money, $to);
                 $total += $convertedMoney->getAmount();
             } else {

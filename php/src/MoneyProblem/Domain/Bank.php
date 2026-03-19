@@ -77,6 +77,7 @@ class Bank
     
     private function roundToTenth(float $amount): float
     {
+        // Multiplier par 10, appliquer floor, puis diviser par 10 pour arrondir au dixième inférieur
         return floor($amount * 10) / 10;
     }
 
